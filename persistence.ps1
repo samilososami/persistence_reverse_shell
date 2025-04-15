@@ -54,7 +54,7 @@ while (`$true) {
     }
     
     # 6. Reconexión agresiva
-    Start-Sleep -Seconds 2
+    Start-Sleep -Seconds 5
 }
 "@
 
