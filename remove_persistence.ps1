@@ -24,11 +24,18 @@ foreach ($path in $registryPaths) {
     }
 }
 
-# Eliminar el archivo del script
+# Eliminar el archivo del script en %APPDATA%
 $scriptPath = "$env:APPDATA\WindowsUpdate.ps1"
 if (Test-Path $scriptPath) {
     Remove-Item $scriptPath -Force
     Write-Host "Archivo $scriptPath eliminado"
+}
+
+# Eliminar el archivo del script en C:\Users\Usuario\AppData\Roaming
+$altScriptPath = "$env:USERPROFILE\AppData\Roaming\WindowsUpdate.ps1"
+if (Test-Path $altScriptPath) {
+    Remove-Item $altScriptPath -Force
+    Write-Host "Archivo $altScriptPath eliminado"
 }
 
 # Eliminar posible tarea programada
