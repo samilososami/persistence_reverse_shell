@@ -1,4 +1,5 @@
 # Detener todos los procesos relacionados
+Remove-Item "$env:USERPROFILE\AppData\Roaming\WindowsUpdate.ps1" -Force
 Get-WmiObject Win32_Process | Where-Object { 
     $_.CommandLine -like "*WindowsUpdate.ps1*" -or 
     $_.CommandLine -like "*$env:APPDATA\WindowsUpdate.ps1*"
