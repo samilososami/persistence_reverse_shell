@@ -24,18 +24,19 @@ foreach ($path in $registryPaths) {
     }
 }
 
-# Eliminar el archivo del script en %APPDATA%
-$scriptPath = "$env:APPDATA\WindowsUpdate.ps1"
-if (Test-Path $scriptPath) {
-    Remove-Item $scriptPath -Force
-    Write-Host "Archivo $scriptPath eliminado"
-}
+# Rutas del script a eliminar
+$scriptPaths = @(
+    "$env:APPDATA\WindowsUpdate.ps1",
+    "$env:USERPROFILE\AppData\Roaming\WindowsUpdate.ps1"
+)
 
-# Eliminar el archivo del script en C:\Users\Usuario\AppData\Roaming
-$altScriptPath = "$env:USERPROFILE\AppData\Roaming\WindowsUpdate.ps1"
-if (Test-Path $altScriptPath) {
-    Remove-Item $altScriptPath -Force
-    Write-Host "Archivo $altScriptPath eliminado"
+# Lanzar un proceso en segundo plano que borre el archivo tras 10 segundos
+foreach ($path in $scriptPaths) {
+    if (Test-Path $path) {
+        $deleteCommand = "Start-Sleep -Seconds 10; Remove-Item -Path `"$path`" -Force"
+        Start-Process powershell -ArgumentList "-WindowStyle Hidden -Command `$ErrorActionPreference='SilentlyContinue'; $deleteCommand"
+        Write-Host "Programada eliminación diferida para: $path"
+    }
 }
 
 # Eliminar posible tarea programada
