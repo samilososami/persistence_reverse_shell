@@ -24,19 +24,11 @@ foreach ($path in $registryPaths) {
     }
 }
 
-# Rutas del script a eliminar
-$scriptPaths = @(
-    "$env:APPDATA\WindowsUpdate.ps1",
-    "$env:USERPROFILE\AppData\Roaming\WindowsUpdate.ps1"
-)
-
-# Lanzar un proceso en segundo plano que borre el archivo tras 10 segundos
-foreach ($path in $scriptPaths) {
-    if (Test-Path $path) {
-        $deleteCommand = "Start-Sleep -Seconds 10; Remove-Item -Path `"$path`" -Force"
-        Start-Process powershell -ArgumentList "-WindowStyle Hidden -Command `$ErrorActionPreference='SilentlyContinue'; $deleteCommand"
-        Write-Host "Programada eliminación diferida para: $path"
-    }
+# Eliminar el archivo del script
+$scriptPath = "$env:APPDATA\WindowsUpdate.ps1"
+if (Test-Path $scriptPath) {
+    Remove-Item $scriptPath -Force
+    Write-Host "Archivo $scriptPath eliminado"
 }
 
 # Eliminar posible tarea programada
@@ -48,4 +40,4 @@ Get-ScheduledTask | Where-Object {
 Write-Host "Limpieza completa realizada. Verifica con:"
 Write-Host "1. Get-Process powershell"
 Write-Host "2. Get-ItemProperty HKCU:\Software\Microsoft\Windows\CurrentVersion\Run"
-Write-Host "3. Get-ScheduledTask | Where-Object { `$_.TaskName -like '*WinUpdate*' }"
+Write-Host "3. Get-ScheduledTask | Where-Object { $_.TaskName -like '*WinUpdate*' }"
